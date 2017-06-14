@@ -5,8 +5,12 @@
  */
 package com.mycompany.practicaservlet.servlet;
 
+import com.mycompany.persistencia.dao.PersonaDao;
+import com.mycompany.persistencia.modelo.Persona;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -20,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletUno extends HttpServlet {
 
+    @EJB
+    private PersonaDao dao;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,8 +51,30 @@ public class ServletUno extends HttpServlet {
                 rd = sc.getRequestDispatcher("/dos.html");
                 rd.forward(request, response);
                 break;
+            case "formulari":
+                rd = sc.getRequestDispatcher("/formulari.html");
+                rd.forward(request, response);
+                break;
+            case "llista":
+                out = response.getWriter();
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Lista personas</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Lista personas</h1>");
+                List<Persona> personas = dao.todas();
+                for (Persona persona : personas) {
+                    out.println("ID: "+persona.getId()+" Nom: "+persona.getNombre()+"<br>");
+                }
+                out.println("<br><br>");
+                out.println("<a href=\"index.html\">Torna</a>");
+                out.println("</body>");
+                out.println("</html>");
+                out.close();
+                break;
             case "error":
-                 out = response.getWriter();
+                out = response.getWriter();
                 out.println("<html>");
                 out.println("<head>");
                 out.println("<title>Pàgina no trobada</title>");
@@ -60,13 +88,13 @@ public class ServletUno extends HttpServlet {
                 out.close();
                 break;
             default:
-                 out = response.getWriter();
+                out = response.getWriter();
                 out.println("<html>");
                 out.println("<head>");
                 out.println("<title>Pàgina no trobada</title>");
                 out.println("</head>");
                 out.println("<body>");
-                out.println("La pàgina "+page+" no s'ha trobat.<br><br>");
+                out.println("La pàgina " + page + " no s'ha trobat.<br><br>");
                 out.println("<a href=\"index.html\">Retorna</a>");
                 out.println("</body>");
                 out.println("</html>");
