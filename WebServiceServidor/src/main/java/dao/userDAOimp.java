@@ -29,10 +29,11 @@ public class userDAOimp {
 
     public Usuario autentificarUser(Usuario user) {
         try {
-            TypedQuery<Usuario> query = em.createQuery("SELECT * FROM Usuario WHERE username=:username AND password=:password", Usuario.class);
+            String q = "SELECT u FROM Usuario u WHERE u.username = :username AND u.password = :password";
+            TypedQuery<Usuario> query = em.createQuery(q, Usuario.class);
             query.setParameter("username", user.getUsername());
             query.setParameter("password", user.getPassword());
-            return query.getSingleResult();            
+            return query.getSingleResult();
         } catch (Exception e) {
             Usuario u = new Usuario("No existe", "No existe");
             u.setId(0L);
