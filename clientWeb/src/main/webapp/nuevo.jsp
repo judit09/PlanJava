@@ -13,14 +13,14 @@
     </head>
     <body>
         <h1>Nuevo Usuario</h1>
-        <form action="nuevo" method="post">
+        <form action="servlet" method="post">
             <div>
                 Username: <input type="text" name="username"/>
             </div>
             <div>
                 Password: <input type="password" name="password"/>
             </div>
-            
+            <input type="hidden" name="accion" value="nuevo"/>
             <br><input type="submit" value="Enviar"/>
         </form>
     </body>
